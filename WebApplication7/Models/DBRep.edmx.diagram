@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f4e53827bcc14b099bbc489a70ba17a3" Name="Diagram1">
+        <EntityTypeShape EntityType="dateDBModel.Friend" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dateDBModel.Info" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dateDBModel.User" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dateDBModel.Wall" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dateDBModel.FriendRequest" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <AssociationConnector Association="dateDBModel.FK_Friend_FirstFriend" ManuallyRouted="false" />
+        <AssociationConnector Association="dateDBModel.FK_Friend_SecondFriend" ManuallyRouted="false" />
+        <AssociationConnector Association="dateDBModel.FK_UID_UserID" ManuallyRouted="false" />
+        <AssociationConnector Association="dateDBModel.FK_FriendRequest_ToRecieveUser" ManuallyRouted="false" />
+        <AssociationConnector Association="dateDBModel.FK_FriendRequest_ToSenderUser" ManuallyRouted="false" />
+        <AssociationConnector Association="dateDBModel.FK_Wall_SIDToUserID" ManuallyRouted="false" />
+        <AssociationConnector Association="dateDBModel.FK_Wall_ToUser" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
