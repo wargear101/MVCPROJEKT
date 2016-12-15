@@ -17,13 +17,13 @@ namespace WebApplication7.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.Friend = new HashSet<Friend>();
-            this.Friend1 = new HashSet<Friend>();
-            this.Info = new HashSet<Info>();
-            this.FriendRequest = new HashSet<FriendRequest>();
-            this.FriendRequest1 = new HashSet<FriendRequest>();
-            this.Wall = new HashSet<Wall>();
-            this.Wall1 = new HashSet<Wall>();
+            this.Friends = new HashSet<Friend>();
+            this.Friends1 = new HashSet<Friend>();
+            this.Infoes = new HashSet<Info>();
+            this.FriendRequests = new HashSet<FriendRequest>();
+            this.FriendRequests1 = new HashSet<FriendRequest>();
+            this.Walls = new HashSet<Wall>();
+            this.Walls1 = new HashSet<Wall>();
         }
     
         public int UserID { get; set; }
@@ -33,18 +33,18 @@ namespace WebApplication7.Models
         public int Secret { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Friend> Friend { get; set; }
+        public virtual ICollection<Friend> Friends { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Friend> Friend1 { get; set; }
+        public virtual ICollection<Friend> Friends1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Info> Info { get; set; }
+        public virtual ICollection<Info> Infoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FriendRequest> FriendRequest { get; set; }
+        public virtual ICollection<FriendRequest> FriendRequests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FriendRequest> FriendRequest1 { get; set; }
+        public virtual ICollection<FriendRequest> FriendRequests1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Wall> Wall { get; set; }
+        public virtual ICollection<Wall> Walls { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Wall> Wall1 { get; set; }
+        public virtual ICollection<Wall> Walls1 { get; set; }
     }
 }

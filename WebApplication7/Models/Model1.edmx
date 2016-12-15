@@ -1,0 +1,452 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DBRep.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Friend">
+          <Key>
+            <PropertyRef Name="FID" />
+          </Key>
+          <Property Name="FID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstUID" Type="int" Nullable="false" />
+          <Property Name="SecondUID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\SEBASTIAN\DOCUMENTS\GITHUB\MVCPROJEKT\WEBAPPLICATION7\APP_DATA\DATEDB.MDF.dbo.FriendRequest' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FriendRequest">
+          <Key>
+            <PropertyRef Name="FUID" />
+            <PropertyRef Name="SUID" />
+            <PropertyRef Name="RUID" />
+          </Key>
+          <Property Name="FUID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SUID" Type="int" Nullable="false" />
+          <Property Name="RUID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Info">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="PID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="20" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="20" />
+          <Property Name="BirthYeah" Type="date" />
+          <Property Name="Gender" Type="bit" />
+          <Property Name="Presentation" Type="nvarchar" MaxLength="250" />
+          <Property Name="UID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Secret" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Wall">
+          <Key>
+            <PropertyRef Name="WID" />
+          </Key>
+          <Property Name="WID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Post" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="UID" Type="int" Nullable="false" />
+          <Property Name="SID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Friend_FirstFriend">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Friend" Type="Self.Friend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Friend">
+              <PropertyRef Name="FirstUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Friend_SecondFriend">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Friend" Type="Self.Friend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Friend">
+              <PropertyRef Name="SecondUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FriendRequest_ToRecieveUser">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="FriendRequest" Type="Self.FriendRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FriendRequest">
+              <PropertyRef Name="RUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FriendRequest_ToSenderUser">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="FriendRequest" Type="Self.FriendRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FriendRequest">
+              <PropertyRef Name="SUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UID_UserID">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Info" Type="Self.Info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Info">
+              <PropertyRef Name="UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wall_SIDToUserID">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Wall" Type="Self.Wall" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Wall">
+              <PropertyRef Name="SID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wall_ToUser">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Wall" Type="Self.Wall" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Wall">
+              <PropertyRef Name="UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBRepStoreContainer">
+          <EntitySet Name="Friend" EntityType="Self.Friend" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Info" EntityType="Self.Info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wall" EntityType="Self.Wall" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FriendRequest" EntityType="Self.FriendRequest" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FriendRequest].[FUID] AS [FUID], 
+    [FriendRequest].[SUID] AS [SUID], 
+    [FriendRequest].[RUID] AS [RUID]
+    FROM [dbo].[FriendRequest] AS [FriendRequest]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Friend_FirstFriend" Association="Self.FK_Friend_FirstFriend">
+            <End Role="User" EntitySet="User" />
+            <End Role="Friend" EntitySet="Friend" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Friend_SecondFriend" Association="Self.FK_Friend_SecondFriend">
+            <End Role="User" EntitySet="User" />
+            <End Role="Friend" EntitySet="Friend" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FriendRequest_ToRecieveUser" Association="Self.FK_FriendRequest_ToRecieveUser">
+            <End Role="User" EntitySet="User" />
+            <End Role="FriendRequest" EntitySet="FriendRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FriendRequest_ToSenderUser" Association="Self.FK_FriendRequest_ToSenderUser">
+            <End Role="User" EntitySet="User" />
+            <End Role="FriendRequest" EntitySet="FriendRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UID_UserID" Association="Self.FK_UID_UserID">
+            <End Role="User" EntitySet="User" />
+            <End Role="Info" EntitySet="Info" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wall_SIDToUserID" Association="Self.FK_Wall_SIDToUserID">
+            <End Role="User" EntitySet="User" />
+            <End Role="Wall" EntitySet="Wall" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wall_ToUser" Association="Self.FK_Wall_ToUser">
+            <End Role="User" EntitySet="User" />
+            <End Role="Wall" EntitySet="Wall" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBRep" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Friend">
+          <Key>
+            <PropertyRef Name="FID" />
+          </Key>
+          <Property Name="FID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstUID" Type="Int32" Nullable="false" />
+          <Property Name="SecondUID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Friend_FirstFriend" FromRole="Friend" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Friend_SecondFriend" FromRole="Friend" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Info">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="PID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BirthYeah" Type="DateTime" Precision="0" />
+          <Property Name="Gender" Type="Boolean" />
+          <Property Name="Presentation" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UID_UserID" FromRole="Info" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Secret" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Friends" Relationship="Self.FK_Friend_FirstFriend" FromRole="User" ToRole="Friend" />
+          <NavigationProperty Name="Friends1" Relationship="Self.FK_Friend_SecondFriend" FromRole="User" ToRole="Friend" />
+          <NavigationProperty Name="Infoes" Relationship="Self.FK_UID_UserID" FromRole="User" ToRole="Info" />
+          <NavigationProperty Name="FriendRequests" Relationship="Self.FK_FriendRequest_ToRecieveUser" FromRole="User" ToRole="FriendRequest" />
+          <NavigationProperty Name="FriendRequests1" Relationship="Self.FK_FriendRequest_ToSenderUser" FromRole="User" ToRole="FriendRequest" />
+          <NavigationProperty Name="Walls" Relationship="Self.FK_Wall_SIDToUserID" FromRole="User" ToRole="Wall" />
+          <NavigationProperty Name="Walls1" Relationship="Self.FK_Wall_ToUser" FromRole="User" ToRole="Wall" />
+        </EntityType>
+        <EntityType Name="Wall">
+          <Key>
+            <PropertyRef Name="WID" />
+          </Key>
+          <Property Name="WID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Post" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UID" Type="Int32" Nullable="false" />
+          <Property Name="SID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Wall_SIDToUserID" FromRole="Wall" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Wall_ToUser" FromRole="Wall" ToRole="User" />
+        </EntityType>
+        <EntityType Name="FriendRequest">
+          <Key>
+            <PropertyRef Name="FUID" />
+            <PropertyRef Name="SUID" />
+            <PropertyRef Name="RUID" />
+          </Key>
+          <Property Name="FUID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SUID" Type="Int32" Nullable="false" />
+          <Property Name="RUID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_FriendRequest_ToRecieveUser" FromRole="FriendRequest" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_FriendRequest_ToSenderUser" FromRole="FriendRequest" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Friend_FirstFriend">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Friend" Type="Self.Friend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Friend">
+              <PropertyRef Name="FirstUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Friend_SecondFriend">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Friend" Type="Self.Friend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Friend">
+              <PropertyRef Name="SecondUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UID_UserID">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Info" Type="Self.Info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Info">
+              <PropertyRef Name="UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FriendRequest_ToRecieveUser">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="FriendRequest" Type="Self.FriendRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FriendRequest">
+              <PropertyRef Name="RUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FriendRequest_ToSenderUser">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="FriendRequest" Type="Self.FriendRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FriendRequest">
+              <PropertyRef Name="SUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wall_SIDToUserID">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Wall" Type="Self.Wall" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Wall">
+              <PropertyRef Name="SID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wall_ToUser">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Wall" Type="Self.Wall" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Wall">
+              <PropertyRef Name="UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dateDB1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Friends" EntityType="Self.Friend" />
+          <EntitySet Name="Infoes" EntityType="Self.Info" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Walls" EntityType="Self.Wall" />
+          <EntitySet Name="FriendRequests" EntityType="Self.FriendRequest" />
+          <AssociationSet Name="FK_Friend_FirstFriend" Association="Self.FK_Friend_FirstFriend">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Friend" EntitySet="Friends" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Friend_SecondFriend" Association="Self.FK_Friend_SecondFriend">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Friend" EntitySet="Friends" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UID_UserID" Association="Self.FK_UID_UserID">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Info" EntitySet="Infoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FriendRequest_ToRecieveUser" Association="Self.FK_FriendRequest_ToRecieveUser">
+            <End Role="User" EntitySet="Users" />
+            <End Role="FriendRequest" EntitySet="FriendRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FriendRequest_ToSenderUser" Association="Self.FK_FriendRequest_ToSenderUser">
+            <End Role="User" EntitySet="Users" />
+            <End Role="FriendRequest" EntitySet="FriendRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wall_SIDToUserID" Association="Self.FK_Wall_SIDToUserID">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Wall" EntitySet="Walls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wall_ToUser" Association="Self.FK_Wall_ToUser">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Wall" EntitySet="Walls" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBRepStoreContainer" CdmEntityContainer="dateDB1">
+          <EntitySetMapping Name="Friends">
+            <EntityTypeMapping TypeName="DBRep.Friend">
+              <MappingFragment StoreEntitySet="Friend">
+                <ScalarProperty Name="FID" ColumnName="FID" />
+                <ScalarProperty Name="FirstUID" ColumnName="FirstUID" />
+                <ScalarProperty Name="SecondUID" ColumnName="SecondUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Infoes">
+            <EntityTypeMapping TypeName="DBRep.Info">
+              <MappingFragment StoreEntitySet="Info">
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="BirthYeah" ColumnName="BirthYeah" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Presentation" ColumnName="Presentation" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DBRep.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UName" ColumnName="UName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Secret" ColumnName="Secret" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Walls">
+            <EntityTypeMapping TypeName="DBRep.Wall">
+              <MappingFragment StoreEntitySet="Wall">
+                <ScalarProperty Name="WID" ColumnName="WID" />
+                <ScalarProperty Name="Post" ColumnName="Post" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="SID" ColumnName="SID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FriendRequests">
+            <EntityTypeMapping TypeName="DBRep.FriendRequest">
+              <MappingFragment StoreEntitySet="FriendRequest">
+                <ScalarProperty Name="FUID" ColumnName="FUID" />
+                <ScalarProperty Name="SUID" ColumnName="SUID" />
+                <ScalarProperty Name="RUID" ColumnName="RUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
